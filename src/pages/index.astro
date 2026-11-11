@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tagline = '让想法成为好用的软件。';
+---
+
+<BaseLayout title="EZHub" description={`EZHub 是个人独立软件创作品牌。${tagline}`}>
+  <main>
+    <h1>EZHub</h1>
+    <p>{tagline}</p>
+  </main>
+</BaseLayout>
+
+<style>
+  main {
+    max-inline-size: var(--content-width);
+    margin-inline: auto;
+    padding: var(--page-spacing) var(--page-gutter);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: var(--heading-size);
+    line-height: 1.1;
+  }
+
+  p {
+    margin-block: var(--text-spacing) 0;
+  }
+</style>
