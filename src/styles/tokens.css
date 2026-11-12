@@ -1,12 +1,16 @@
 :root {
   --color-background: #fff;
   --color-text: #182235;
+  --color-muted: #4d5d76;
+  --color-accent: #2855cf;
+  --color-accent-hover: #2045ab;
+  --color-border: #dce4f2;
+  --color-surface: #f7f9fe;
   --font-body: system-ui, sans-serif;
-  --content-width: 64rem;
-  --page-gutter: clamp(1rem, 4vw, 2rem);
-  --page-spacing: clamp(3rem, 10vw, 7rem);
-  --heading-size: clamp(2.5rem, 8vw, 4rem);
-  --text-spacing: 1rem;
+  --content-width: 75rem;
+  --page-gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --page-spacing: clamp(3rem, 7vw, 6rem);
+  --heading-size: clamp(2.5rem, 5.5vw, 4.75rem);
 }
 
 body {
@@ -14,4 +18,9 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   font: 1rem / 1.6 var(--font-body);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }

@@ -2,29 +2,507 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const tagline = '让想法成为好用的软件。';
+const navigation = [
+  { href: '#products', label: '产品' },
+  { href: '#principles', label: '品牌理念' },
+];
+const products = [
+  { name: 'eNote', alias: '易笔记', mark: 'e', style: 'note', description: '面向日常记录的笔记应用。' },
+  { name: 'BuildingStore', mark: 'B', style: 'building', description: '面向门店日常经营的收银与进销存管理工具。' },
+];
+const principles = [
+  { title: '简单', description: '理清最常用的操作，减少使用时需要做的选择。' },
+  { title: '实用', description: '从具体需求出发，优先解决日常使用中的问题。' },
+  { title: '持续创造', description: '从小处开始，在使用和反馈中持续打磨。' },
+];
 ---
 
-<BaseLayout title="EZHub" description={`EZHub 是个人独立软件创作品牌。${tagline}`}>
-  <main>
-    <h1>EZHub</h1>
-    <p>{tagline}</p>
+<BaseLayout title={`EZHub · ${tagline}`} description="EZHub 是个人独立软件创作品牌，专注于实际需求，持续打磨 eNote（易笔记）与 BuildingStore。">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="wordmark" href="#top"><span class="brand-mark" aria-hidden="true">E</span>EZHub</a>
+      <nav class="desktop-nav" aria-label="主导航">
+        {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
+      </nav>
+      <details class="mobile-nav">
+        <summary>菜单</summary>
+        <nav aria-label="主导航">
+          {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="container hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">个人独立软件创作</p>
+        <h1 id="hero-title">让想法成为<br />好用的软件。</h1>
+        <p class="intro">EZHub 从日常使用中的实际需求出发，把想法做成软件，再一点点打磨使用体验。</p>
+        <a class="primary-link" href="#products">探索产品 <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="concept">
+        <div class="mock-window" aria-hidden="true">
+          <div class="mock-toolbar"><i></i><i></i><i></i></div>
+          <div class="mock-body">
+            <div class="mock-sidebar"><i></i><i></i><i></i><i></i></div>
+            <div class="mock-content">
+              <div class="mock-banner"><span class="brand-mark">E</span><i></i><i></i></div>
+              <div class="mock-tiles"><div><i></i><i></i></div><div><i></i><i></i></div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption>软件界面概念示意</figcaption>
+      </figure>
+    </section>
+
+    <section class="product-section" aria-labelledby="products">
+      <div class="container">
+        <h2 id="products" tabindex="-1">产品</h2>
+        <div class="product-grid">
+          {products.map(({ name, alias, mark, style, description }) => (
+            <article class={`product-card ${style}`}>
+              <div class="product-top">
+                <span class="product-mark" aria-hidden="true">{mark}</span>
+                <span class="status">研发中</span>
+              </div>
+              <h3>{name}{alias && <span class="product-alias">（{alias}）</span>}</h3>
+              <p>{description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="container principles" aria-labelledby="principles">
+      <h2 id="principles" tabindex="-1">品牌理念</h2>
+      <ul class="principle-grid">
+        {principles.map(({ title, description }) => (
+          <li>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="wordmark" href="#top"><span class="brand-mark" aria-hidden="true">E</span>EZHub</a>
+      <nav aria-label="页脚导航">
+        {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
+      </nav>
+    </div>
+  </footer>
 </BaseLayout>
 
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-nav');
+  const summary = menu?.querySelector('summary');
+
+  if (menu && summary) {
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => { menu.open = false; });
+    });
+    menu.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        summary.focus();
+      }
+    });
+  }
+</script>
+
 <style>
-  main {
+  .container {
+    box-sizing: border-box;
+    width: 100%;
     max-inline-size: var(--content-width);
     margin-inline: auto;
-    padding: var(--page-spacing) var(--page-gutter);
+    padding-inline: var(--page-gutter);
+  }
+
+  .skip-link {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: .5rem;
+    inset-inline-start: var(--page-gutter);
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    background: var(--color-background);
+  }
+
+  .skip-link:not(:focus) {
+    clip-path: inset(50%);
+  }
+
+  .site-header {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .header-inner,
+  .footer-inner,
+  nav,
+  .wordmark,
+  .product-top {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-inner,
+  .footer-inner,
+  .product-top {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .header-inner,
+  .footer-inner {
+    min-block-size: 4.5rem;
+  }
+
+  .wordmark {
+    gap: .65rem;
+    color: var(--color-text);
+    font-size: 1.2rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .brand-mark,
+  .product-mark {
+    display: grid;
+    place-items: center;
+    flex: none;
+    line-height: 1;
+    font-weight: 750;
+  }
+
+  .brand-mark {
+    inline-size: 2rem;
+    block-size: 2rem;
+    border-radius: .65rem;
+    background: var(--color-accent);
+    color: white;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: .5rem clamp(.75rem, 3vw, 2rem);
+  }
+
+  nav a,
+  summary {
+    padding-block: .5rem;
+    color: var(--color-muted);
+    font-size: .9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: .25em;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-block: var(--page-spacing);
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  figure {
+    margin: 0;
+    overflow-wrap: anywhere;
   }
 
   h1 {
-    margin: 0;
     font-size: var(--heading-size);
-    line-height: 1.1;
+    line-height: 1.16;
+    letter-spacing: -.045em;
   }
 
-  p {
-    margin-block: var(--text-spacing) 0;
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    scroll-margin-block-start: 1rem;
+  }
+
+  h3 {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+
+  .eyebrow {
+    margin-block-end: 1rem;
+    color: var(--color-accent);
+    font-size: .9rem;
+    font-weight: 700;
+  }
+
+  .intro {
+    max-inline-size: 24rem;
+    margin-block: 1.25rem 1.75rem;
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+  }
+
+  .primary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .75rem 1.125rem;
+    border-radius: .75rem;
+    background: var(--color-accent);
+    color: white;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .primary-link:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .concept {
+    min-inline-size: 0;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    padding-block-end: .9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem;
+    background: linear-gradient(145deg, #e9f2ff, #f1edff);
+  }
+
+  .concept figcaption {
+    margin-block-start: .75rem;
+    color: var(--color-muted);
+    font-size: .75rem;
+    text-align: end;
+  }
+
+  .mock-window {
+    overflow: hidden;
+    border: 1px solid #d7e1f4;
+    border-radius: 1rem;
+    background: white;
+    box-shadow: 0 .875rem 2rem #24397e1a;
+  }
+
+  .mock-toolbar {
+    display: flex;
+    gap: .3rem;
+    padding: .75rem;
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .mock-toolbar i {
+    inline-size: .375rem;
+    block-size: .375rem;
+    border-radius: 50%;
+    background: #bdc9e1;
+  }
+
+  .mock-body {
+    display: grid;
+    grid-template-columns: 24% minmax(0, 1fr);
+  }
+
+  .mock-sidebar,
+  .mock-content {
+    display: grid;
+    gap: .65rem;
+    padding: clamp(.55rem, 2vw, 1.15rem);
+  }
+
+  .mock-sidebar {
+    align-content: start;
+    border-inline-end: 1px solid var(--color-border);
+    background: #f7f9ff;
+  }
+
+  .mock-sidebar i,
+  .mock-banner i,
+  .mock-tiles i {
+    display: block;
+    inline-size: 70%;
+    block-size: .3rem;
+    border-radius: 1rem;
+    background: #c2cfea;
+  }
+
+  .mock-sidebar i:first-child {
+    inline-size: 100%;
+    background: #859cf0;
+  }
+
+  .mock-banner,
+  .mock-tiles > div {
+    display: grid;
+    align-content: center;
+    gap: .5rem;
+    padding: .75rem;
+    border-radius: .6rem;
+  }
+
+  .mock-banner {
+    min-block-size: clamp(4rem, 8vw, 6rem);
+    background: linear-gradient(120deg, #edf3ff, #ece7ff);
+  }
+
+  .mock-banner i:last-child,
+  .mock-tiles i:last-child {
+    inline-size: 45%;
+  }
+
+  .mock-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .55rem;
+  }
+
+  .mock-tiles > div {
+    min-block-size: 1.5rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .product-section,
+  .principles {
+    padding-block: var(--page-spacing);
+  }
+
+  .product-section {
+    border-block: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .product-grid,
+  .principle-grid {
+    display: grid;
+    gap: 1rem;
+    margin-block-start: 1.5rem;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-card {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--color-border);
+    border-radius: 1.125rem;
+    background: var(--color-background);
+  }
+
+  .product-top {
+    flex-wrap: wrap;
+    margin-block-end: 1.25rem;
+  }
+
+  .product-mark {
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    border-radius: .9rem;
+    background: #eaf1ff;
+    color: var(--color-accent);
+    font-size: 1.6rem;
+  }
+
+  .building .product-mark {
+    background: #eeebff;
+    color: #5942ae;
+  }
+
+  .status {
+    padding: .25rem .65rem;
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    background: var(--color-surface);
+    color: var(--color-muted);
+    font-size: .75rem;
+  }
+
+  .product-alias {
+    color: var(--color-muted);
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+  .product-card p,
+  .principle-grid p {
+    margin-block-start: .45rem;
+    color: var(--color-muted);
+  }
+
+  .principle-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-block-end: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .principle-grid li {
+    padding-block-start: 1rem;
+    border-block-start: 2px solid var(--color-border);
+  }
+
+  .site-footer {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 42rem) {
+    .desktop-nav {
+      display: none;
+    }
+
+    .mobile-nav {
+      display: block;
+      position: relative;
+    }
+
+    summary {
+      width: fit-content;
+      padding-inline: .625rem;
+      border: 1px solid var(--color-border);
+      border-radius: .5rem;
+      cursor: pointer;
+    }
+
+    .mobile-nav nav {
+      position: absolute;
+      z-index: 1;
+      inset-block-start: calc(100% + .5rem);
+      inset-inline-end: 0;
+      inline-size: 8rem;
+      display: grid;
+      gap: 0;
+      padding: .5rem .875rem;
+      border: 1px solid var(--color-border);
+      border-radius: .75rem;
+      background: var(--color-background);
+      box-shadow: 0 .5rem 1.25rem #24397e1a;
+    }
+
+    .hero,
+    .product-grid,
+    .principle-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .footer-inner {
+      flex-wrap: wrap;
+      padding-block: 1rem;
+    }
   }
 </style>
