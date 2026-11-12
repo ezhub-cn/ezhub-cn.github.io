@@ -1,0 +1,17 @@
+:root {
+  --color-background: #fff;
+  --color-text: #182235;
+  --font-body: system-ui, sans-serif;
+  --content-width: 64rem;
+  --page-gutter: clamp(1rem, 4vw, 2rem);
+  --page-spacing: clamp(3rem, 10vw, 7rem);
+  --heading-size: clamp(2.5rem, 8vw, 4rem);
+  --text-spacing: 1rem;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font: 1rem / 1.6 var(--font-body);
+}

@@ -1,0 +1,28 @@
+name: PR 验证
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: 设置 Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: 安装锁定依赖
+        run: npm ci
+      - name: 类型检查
+        run: npm run check
+      - name: 静态构建
+        run: npm run build
+      - name: 验证首页产物
+        run: test -f dist/index.html
