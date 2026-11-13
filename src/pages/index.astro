@@ -1,15 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductGrid from '../components/ProductGrid.astro';
 
 const tagline = '让想法成为好用的软件。';
-const navigation = [
-  { href: '#products', label: '产品' },
-  { href: '#principles', label: '品牌理念' },
-];
-const products = [
-  { name: 'eNote', alias: '易笔记', mark: 'e', style: 'note', description: '面向日常记录的笔记应用。' },
-  { name: 'BuildingStore', mark: 'B', style: 'building', description: '面向门店日常经营的收银与进销存管理工具。' },
-];
 const principles = [
   { title: '简单', description: '理清最常用的操作，减少使用时需要做的选择。' },
   { title: '实用', description: '从具体需求出发，优先解决日常使用中的问题。' },
@@ -18,22 +11,6 @@ const principles = [
 ---
 
 <BaseLayout title={`EZHub · ${tagline}`} description="EZHub 是个人独立软件创作品牌，专注于实际需求，持续打磨 eNote（易笔记）与 BuildingStore。">
-  <a class="skip-link" href="#main">跳到主要内容</a>
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="wordmark" href="#top"><span class="brand-mark" aria-hidden="true">E</span>EZHub</a>
-      <nav class="desktop-nav" aria-label="主导航">
-        {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
-      </nav>
-      <details class="mobile-nav">
-        <summary>菜单</summary>
-        <nav aria-label="主导航">
-          {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
-        </nav>
-      </details>
-    </div>
-  </header>
-
   <main id="main" tabindex="-1">
     <section class="container hero" aria-labelledby="hero-title">
       <div class="hero-copy">
@@ -60,18 +37,7 @@ const principles = [
     <section class="product-section" aria-labelledby="products">
       <div class="container">
         <h2 id="products" tabindex="-1">产品</h2>
-        <div class="product-grid">
-          {products.map(({ name, alias, mark, style, description }) => (
-            <article class={`product-card ${style}`}>
-              <div class="product-top">
-                <span class="product-mark" aria-hidden="true">{mark}</span>
-                <span class="status">研发中</span>
-              </div>
-              <h3>{name}{alias && <span class="product-alias">（{alias}）</span>}</h3>
-              <p>{description}</p>
-            </article>
-          ))}
-        </div>
+        <ProductGrid heading="h3" />
       </div>
     </section>
 
@@ -88,130 +54,9 @@ const principles = [
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <a class="wordmark" href="#top"><span class="brand-mark" aria-hidden="true">E</span>EZHub</a>
-      <nav aria-label="页脚导航">
-        {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
-      </nav>
-    </div>
-  </footer>
 </BaseLayout>
 
-<script>
-  const menu = document.querySelector<HTMLDetailsElement>('.mobile-nav');
-  const summary = menu?.querySelector('summary');
-
-  if (menu && summary) {
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => { menu.open = false; });
-    });
-    menu.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && menu.open) {
-        menu.open = false;
-        summary.focus();
-      }
-    });
-  }
-</script>
-
 <style>
-  .container {
-    box-sizing: border-box;
-    width: 100%;
-    max-inline-size: var(--content-width);
-    margin-inline: auto;
-    padding-inline: var(--page-gutter);
-  }
-
-  .skip-link {
-    position: absolute;
-    z-index: 2;
-    inset-block-start: .5rem;
-    inset-inline-start: var(--page-gutter);
-    padding: .5rem 1rem;
-    border-radius: .5rem;
-    background: var(--color-background);
-  }
-
-  .skip-link:not(:focus) {
-    clip-path: inset(50%);
-  }
-
-  .site-header {
-    border-block-end: 1px solid var(--color-border);
-  }
-
-  .header-inner,
-  .footer-inner,
-  nav,
-  .wordmark,
-  .product-top {
-    display: flex;
-    align-items: center;
-  }
-
-  .header-inner,
-  .footer-inner,
-  .product-top {
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .header-inner,
-  .footer-inner {
-    min-block-size: 4.5rem;
-  }
-
-  .wordmark {
-    gap: .65rem;
-    color: var(--color-text);
-    font-size: 1.2rem;
-    font-weight: 750;
-    text-decoration: none;
-  }
-
-  .brand-mark,
-  .product-mark {
-    display: grid;
-    place-items: center;
-    flex: none;
-    line-height: 1;
-    font-weight: 750;
-  }
-
-  .brand-mark {
-    inline-size: 2rem;
-    block-size: 2rem;
-    border-radius: .65rem;
-    background: var(--color-accent);
-    color: white;
-  }
-
-  nav {
-    flex-wrap: wrap;
-    gap: .5rem clamp(.75rem, 3vw, 2rem);
-  }
-
-  nav a,
-  summary {
-    padding-block: .5rem;
-    color: var(--color-muted);
-    font-size: .9rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  nav a:hover {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: .25em;
-  }
-
-  .mobile-nav {
-    display: none;
-  }
-
   .hero {
     display: grid;
     grid-template-columns: 1.05fr 1fr;
@@ -387,59 +232,12 @@ const principles = [
     background: var(--color-surface);
   }
 
-  .product-grid,
   .principle-grid {
     display: grid;
     gap: 1rem;
     margin-block-start: 1.5rem;
   }
 
-  .product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .product-card {
-    padding: clamp(1.25rem, 3vw, 2rem);
-    border: 1px solid var(--color-border);
-    border-radius: 1.125rem;
-    background: var(--color-background);
-  }
-
-  .product-top {
-    flex-wrap: wrap;
-    margin-block-end: 1.25rem;
-  }
-
-  .product-mark {
-    inline-size: 3.25rem;
-    block-size: 3.25rem;
-    border-radius: .9rem;
-    background: #eaf1ff;
-    color: var(--color-accent);
-    font-size: 1.6rem;
-  }
-
-  .building .product-mark {
-    background: #eeebff;
-    color: #5942ae;
-  }
-
-  .status {
-    padding: .25rem .65rem;
-    border: 1px solid var(--color-border);
-    border-radius: 2rem;
-    background: var(--color-surface);
-    color: var(--color-muted);
-    font-size: .75rem;
-  }
-
-  .product-alias {
-    color: var(--color-muted);
-    font-size: .9rem;
-    font-weight: 500;
-  }
-
-  .product-card p,
   .principle-grid p {
     margin-block-start: .45rem;
     color: var(--color-muted);
@@ -457,52 +255,10 @@ const principles = [
     border-block-start: 2px solid var(--color-border);
   }
 
-  .site-footer {
-    border-block-start: 1px solid var(--color-border);
-  }
-
   @media (max-width: 42rem) {
-    .desktop-nav {
-      display: none;
-    }
-
-    .mobile-nav {
-      display: block;
-      position: relative;
-    }
-
-    summary {
-      width: fit-content;
-      padding-inline: .625rem;
-      border: 1px solid var(--color-border);
-      border-radius: .5rem;
-      cursor: pointer;
-    }
-
-    .mobile-nav nav {
-      position: absolute;
-      z-index: 1;
-      inset-block-start: calc(100% + .5rem);
-      inset-inline-end: 0;
-      inline-size: 8rem;
-      display: grid;
-      gap: 0;
-      padding: .5rem .875rem;
-      border: 1px solid var(--color-border);
-      border-radius: .75rem;
-      background: var(--color-background);
-      box-shadow: 0 .5rem 1.25rem #24397e1a;
-    }
-
     .hero,
-    .product-grid,
     .principle-grid {
       grid-template-columns: minmax(0, 1fr);
-    }
-
-    .footer-inner {
-      flex-wrap: wrap;
-      padding-block: 1rem;
     }
   }
 </style>

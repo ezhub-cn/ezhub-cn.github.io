@@ -1,0 +1,128 @@
+---
+import { products } from '../data/products';
+
+interface Props {
+  heading?: 'h2' | 'h3';
+}
+
+const { heading: Heading = 'h2' } = Astro.props;
+---
+
+<div class="product-grid">
+  {Object.values(products).map(({ name, alias, mark, path, description, status, color }) => (
+    <a class={`product-card ${color}`} href={path} aria-labelledby={`product-${mark}`} aria-describedby={`status-${mark} description-${mark}`}>
+      <div class="product-top">
+        <span class="product-mark" aria-hidden="true">{mark}</span>
+        <span class="status" id={`status-${mark}`}>{status}</span>
+      </div>
+      <Heading id={`product-${mark}`}>{name}{alias && <span class="product-alias">（{alias}）</span>}</Heading>
+      <p id={`description-${mark}`}>{description}</p>
+      <span class="card-action">查看详情 <span aria-hidden="true">→</span></span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-block-start: 1.5rem;
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--color-border);
+    border-radius: 1.125rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .product-card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .product-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-end: 1.25rem;
+  }
+
+  .product-mark {
+    display: grid;
+    place-items: center;
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    border-radius: .9rem;
+    background: #eaf1ff;
+    color: var(--color-accent);
+    font-size: 1.6rem;
+    font-weight: 750;
+    line-height: 1;
+  }
+
+  .building .product-mark {
+    background: #eeebff;
+    color: #5942ae;
+  }
+
+  .status {
+    padding: .25rem .65rem;
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    background: var(--color-surface);
+    color: var(--color-muted);
+    font-size: .75rem;
+  }
+
+  .product-alias {
+    color: var(--color-muted);
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+  h2,
+  h3,
+  p {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  h2,
+  h3 {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+
+  p {
+    margin-block-start: .45rem;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .card-action {
+    margin-block-start: auto;
+    padding-block-start: .75rem;
+    color: var(--color-accent);
+    font-size: .9rem;
+    font-weight: 650;
+  }
+
+  .product-card:hover .card-action {
+    text-decoration: underline;
+    text-underline-offset: .25em;
+  }
+
+  @media (max-width: 42rem) {
+    .product-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
