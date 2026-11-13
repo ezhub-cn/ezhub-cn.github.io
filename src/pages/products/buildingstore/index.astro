@@ -1,0 +1,15 @@
+---
+import ProductDetailLayout from '../../../layouts/ProductDetailLayout.astro';
+import { products } from '../../../data/products';
+---
+
+<ProductDetailLayout product={products.buildingstore}>
+  <section aria-labelledby="scenarios">
+    <h2 id="scenarios">使用场景</h2>
+    <p>门店日常经营需要处理顾客结账、商品入库和库存盘点，也需要回顾每天的经营记录。这些是 BuildingStore 关注的场景。</p>
+  </section>
+  <section aria-labelledby="direction">
+    <h2 id="direction">设计方向</h2>
+    <p>设计目标是理清收银、进货和库存记录之间的关系，让门店人员在处理日常业务时少做重复登记，核对时容易找到对应记录。</p>
+  </section>
+</ProductDetailLayout>

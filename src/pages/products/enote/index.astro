@@ -1,0 +1,15 @@
+---
+import ProductDetailLayout from '../../../layouts/ProductDetailLayout.astro';
+import { products } from '../../../data/products';
+---
+
+<ProductDetailLayout product={products.enote}>
+  <section aria-labelledby="scenarios">
+    <h2 id="scenarios">使用场景</h2>
+    <p>eNote 面向日常笔记记录与整理。随手记下一个想法、留存会议要点，或在事后回顾之前写过的内容，都是它关注的场景。</p>
+  </section>
+  <section aria-labelledby="direction">
+    <h2 id="direction">设计方向</h2>
+    <p>让人可以先把内容记下来，再按自己的节奏整理。设计会优先考虑记录时少被打断，以及回顾时容易找回需要的笔记。</p>
+  </section>
+</ProductDetailLayout>

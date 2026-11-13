@@ -14,13 +14,41 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100vh;
   margin: 0;
   background: var(--color-background);
   color: var(--color-text);
   font: 1rem / 1.6 var(--font-body);
 }
 
+body > main {
+  flex-grow: 1;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
+}
+
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-inline-size: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  line-height: 1;
+  font-weight: 750;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: .65rem;
+  background: var(--color-accent);
+  color: white;
 }

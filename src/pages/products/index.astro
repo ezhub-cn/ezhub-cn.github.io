@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+---
+
+<BaseLayout title="产品中心 · EZHub" description="了解 EZHub 正在研发的两款独立软件：eNote（易笔记）和 BuildingStore。">
+  <main class="container product-center" id="main" tabindex="-1">
+    <h1>产品中心</h1>
+    <p>了解 EZHub 正在研发的两款软件，分别面向日常记录和门店经营。</p>
+    <ProductGrid />
+  </main>
+</BaseLayout>
+
+<style>
+  .product-center {
+    padding-block: var(--page-spacing);
+    overflow-wrap: anywhere;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: var(--heading-size);
+    line-height: 1.16;
+  }
+
+  p {
+    max-inline-size: 36rem;
+    margin-block: 1rem 2rem;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+</style>
