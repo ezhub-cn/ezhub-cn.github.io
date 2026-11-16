@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面未找到 · EZHub" description="找不到你访问的页面。可以返回 EZHub 首页，或前往产品中心。">
+  <main class="container not-found" id="main" tabindex="-1">
+    <div class="panel">
+      <p class="status">404</p>
+      <h1>页面未找到</h1>
+      <p class="message">找不到你访问的页面。可以返回首页，或前往产品中心。</p>
+      <div class="links">
+        <a class="primary-link" href="/">返回首页</a>
+        <a href="/products/">前往产品中心</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    align-items: center;
+    padding-block: var(--page-spacing);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .panel {
+    padding: clamp(1.25rem, 6vw, 4rem);
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem;
+    background: var(--color-surface);
+  }
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  .status {
+    color: var(--color-accent);
+    font-size: var(--heading-size);
+    font-weight: 750;
+    line-height: 1.1;
+  }
+
+  h1 {
+    margin-block-start: .75rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.25;
+  }
+
+  .message {
+    margin-block-start: .75rem;
+    color: var(--color-muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-block-start: 1.5rem;
+  }
+
+  a {
+    color: var(--color-accent);
+    font-weight: 650;
+    text-underline-offset: .25em;
+  }
+
+  .primary-link {
+    padding: .75rem 1.125rem;
+    border-radius: .75rem;
+    background: var(--color-accent);
+    color: white;
+    text-decoration: none;
+  }
+
+  .primary-link:hover {
+    background: var(--color-accent-hover);
+  }
+</style>

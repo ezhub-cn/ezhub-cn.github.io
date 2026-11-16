@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+
+const principles = [
+  { title: '简单', description: '让常用操作容易找到，第一次使用也能顺利上手。' },
+  { title: '实用', description: '从记录一件事、完成一笔收银这样的具体场景出发。' },
+  { title: '持续创造', description: '先做好一件小事，再根据实际使用中的反馈改进。' },
+];
+---
+
+<BaseLayout title="关于 EZHub" description="了解个人独立软件创作品牌 EZHub 的创作理念，以及 eNote（易笔记）与 BuildingStore 所面向的使用场景。">
+  <main id="main" tabindex="-1">
+    <div class="container about">
+      <header class="intro">
+        <h1>关于 EZHub</h1>
+        <p class="tagline">让想法成为好用的软件。</p>
+        <p>EZHub 是个人独立软件创作品牌，关注日常记录和门店经营中的具体需求，希望做出能长期用下去的工具。</p>
+      </header>
+
+      <section aria-labelledby="about-principles">
+        <h2 id="about-principles">品牌理念</h2>
+        <ul class="principles">
+          {principles.map(({ title, description }) => (
+            <li>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="about-products">
+        <h2 id="about-products">软件作品</h2>
+        <ProductGrid heading="h3" />
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    padding-block: var(--page-spacing);
+    overflow-wrap: anywhere;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: var(--heading-size);
+    line-height: 1.16;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    margin-block-end: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+
+  p {
+    margin-block-start: .5rem;
+    color: var(--color-muted);
+  }
+
+  .intro p {
+    max-inline-size: 36rem;
+  }
+
+  .intro .tagline {
+    margin-block-start: 1rem;
+    color: var(--color-text);
+    font-size: 1.25rem;
+    font-weight: 650;
+  }
+
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .principles li {
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-surface);
+  }
+
+  @media (max-width: 42rem) {
+    .principles {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
