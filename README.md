@@ -11,15 +11,16 @@ npm ci
 npm run dev
 ```
 
-访问终端显示的本地地址。运行以下命令可执行类型检查、生成 `dist/index.html`，并预览构建产物。
+访问终端显示的本地地址。运行以下命令可执行类型检查、构建并校验静态产物，然后启动预览。
 
 ```sh
 npm run check
 npm run build
+npm run verify:dist
 npm run preview
 ```
 
-页面位于 `src/pages/`，公共布局位于 `src/layouts/`，基础设计 Token 位于 `src/styles/tokens.css`。PR CI 运行锁文件安装、类型检查、静态构建和首页产物检查。
+页面位于 `src/pages/`，公共布局位于 `src/layouts/`，基础设计 Token 位于 `src/styles/tokens.css`。PR CI 运行锁文件安装、类型检查、静态构建和页面及 SEO 产物校验。
 
 - [站点规格](docs/SITE_SPEC.md)
 - [开发工作流](docs/WORKFLOW.md)
