@@ -11,9 +11,11 @@
     "dev": "astro dev",
     "check": "astro check",
     "build": "astro build",
+    "verify:dist": "node scripts/verify-dist.mjs",
     "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/sitemap": "3.7.5",
     "astro": "7.4.10"
   },
   "devDependencies": {
