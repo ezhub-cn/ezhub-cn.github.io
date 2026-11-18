@@ -1,0 +1,86 @@
+name: 发布 GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 发布目标
+        type: choice
+        required: true
+        default: astro-v1
+        options:
+          - astro-v1
+          - legacy-snapshot
+
+permissions: {}
+
+jobs:
+  build:
+    if: >-
+      github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' &&
+      (inputs.target == 'astro-v1' || inputs.target == 'legacy-snapshot')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: 设置 Node.js
+        if: inputs.target == 'astro-v1'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: 构建并验证 Astro 产物
+        if: inputs.target == 'astro-v1'
+        shell: bash
+        run: |
+          test "$(npm --version)" = "$(node -p "require('./package.json').packageManager.slice('npm@'.length)")"
+          npm ci
+          npm run check
+          npm run build
+          npm run verify:dist
+      - name: 准备并验证旧站产物
+        if: inputs.target == 'legacy-snapshot'
+        shell: bash
+        run: |
+          snapshot="$GITHUB_WORKSPACE/ops/rollback/legacy-site"
+          mkdir "$RUNNER_TEMP/legacy-site"
+          cd "$RUNNER_TEMP/legacy-site"
+          install -D "$snapshot/index.html" index.html
+          install -D "$snapshot/assets/css/style.css" assets/css/style.css
+          install -D "$snapshot/assets/js/anchor.min.js" assets/js/anchor.min.js
+          install -D "$snapshot/assets/LICENSE.txt" assets/LICENSE.txt
+          sha256sum --check --strict "$snapshot/../legacy-site.sha256"
+      - name: 上传 Astro 产物
+        if: inputs.target == 'astro-v1'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with:
+          path: dist
+      - name: 上传旧站产物
+        if: inputs.target == 'legacy-snapshot'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with:
+          path: ${{ runner.temp }}/legacy-site
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
