@@ -24,6 +24,7 @@ npm run preview
 
 - [站点规格](docs/SITE_SPEC.md)
 - [开发工作流](docs/WORKFLOW.md)
+- [Pages 发布与旧站恢复](docs/PAGES_DEPLOY.md)
 - [Agent 协作入口](AGENTS.md)
 - [代码与工程文档规范](docs/CODE_STYLE.md)
 - [AI 协作与接管](AI_CONTEXT.md)
